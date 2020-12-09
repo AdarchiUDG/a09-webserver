@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calificaciones</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700&display=swap');
+
+    * {
+      margin: 0;
+    }
+
+    body {
+      background: rgba(17, 24, 39);
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Exo 2', sans-serif;
+    }
+
+    main {
+      color: #fafafa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .tabRadio {
+      display: none;
+    }
+
+    .tabRadio + div {
+      opacity: 0;
+      transition: 0.3s all;
+      pointer-events: none;
+      position: absolute;
+      width: 90%;
+      left: 5%;
+      top: 5%;
+      transform: translateX(-100%);
+      height: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .tabRadio + div > * {
+      width: 100%;
+    }
+
+    .tabRadio:checked + div {
+      opacity: 1;
+      pointer-events: initial;
+      position: absolute;
+      transform: translateX(0);
+    }
+
+    #tabs {
+      left: -64px;
+      top: 50%;
+      transform: translateY(-50%);
+      position: absolute;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      flex-direction: column;
+    }
+
+    #tabs > label > i {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      left: 0;
+      top: 0;
+      font-size: 20px;
+    }
+
+    #tabs > label {
+      position: relative;
+      left: 0;
+      padding-left: 64px;
+      border-radius: 10px 0 0 10px;
+      transition: 0.3s all;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      width: 64px;
+      height: 64px;
+      box-sizing: border-box;
+      white-space: pre;
+      margin: 10px 0;
+      background: rgba(55, 65, 81);
+      width: 300px;
+      font-size: 18px;
+    }
+
+    #tabs > label:hover {
+      background: rgba(75, 85, 99);
+      left: calc(-300px + 64px);
+    }
+
+    #tabs > label.active {
+      background: rgba(107, 114, 128);
+      left: calc(-300px + 64px);
+    }
+
+    .input-field {
+      margin: 10px 0;
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
+    .input-field > label {
+      font-size: 16px;
+      margin-left: 15px;
+      transition: 0.2s all;
+    }
+    .input-field > input {
+      padding: 10px;
+      box-sizing: border-box;
+      border: none;
+      border-bottom: 1px solid #eee;
+      background: transparent;
+      color: #fafafa;
+      font-size: 16px;
+      transition: 0.2s all;
+    }
+
+    .input-field > input:focus {
+      border-bottom-color: #4fc3f7;
+    }
+
+    .input-field > input:focus + label {
+      color: #4fc3f7;
+    }
+
+    .input-field > button {
+      padding: 10px 20px;
+      border-radius: 10px;;
+      background: rgba(30, 64, 175);
+      width: 50%;
+      border: none;
+      cursor: pointer;
+      color: #fafafa;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 18px;
+      text-transform: uppercase;
+      margin-top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      position: relative;
+      transition: 0.3s all;
+    }
+
+    .input-field > button:hover {
+      background: rgba(29, 78, 216);
+    }
+
+    #tabContainers {
+      min-width: 400px;
+      background: rgba(107, 114, 128);
+      position: relative;
+
+      max-width: 95vw;
+      width: 400px;
+      height: 400px;
+      overflow: hidden;
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .hide {
+      display: none;
+    }
+
+    .response {
+      text-align: center;
+      font-size: 20px;
+    }
+
+    .response::before {
+      content: 'Calificacion';
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div id="tabs">
+      <label for="addTab" class="active"><i class="fas fa-award"></i>Agregar Calificacion</label>
+      <label for="studentTab"><i class="fas fa-user"></i>Promedio de Estudiante</label>
+      <label for="classTab"><i class="fas fa-chalkboard"></i>Promedio de Materia</label>
+      <label for="averageTab"><i class="fas fa-school"></i>Promedio General</label>
+    </div>
+
+    <div id="tabContainers">
+      <input name="tab" class="tabRadio" type="radio" id="addTab" checked>
+      <div class="tabContent">
+        <form name="add">
+          <div class="input-field">
+            <input type="text" name="name" id="name">
+            <label for="name">Nombre</label>
+          </div>
+          <div class="input-field">
+            <input type="text" name="class" id="class">
+            <label for="class">Clase</label>
+          </div>
+          <div class="input-field">
+            <input type="number" step="0.01" min="0" name="grade" id="grade">
+            <label for="grade">Calificacion</label>
+          </div>
+          <div class="input-field">
+            <button type="submit">Agregar</button>
+          </div>
+        </form>
+      </div>
+  
+      <input name="tab" class="tabRadio" type="radio" id="studentTab">
+      <div class="tabContent">
+        <form name="student">
+          <div class="input-field">
+            <input type="text" name="name" id="s_name">
+            <label for="s_name">Estudiante</label>
+          </div>
+          <div class="input-field">
+            <button type="submit">Buscar</button>
+          </div>
+        </form>
+        <div class="response hide"></div>
+      </div>
+  
+      <input name="tab" class="tabRadio" type="radio" id="classTab">
+      <div class="tabContent">
+        <form name="class">
+          <div class="input-field">
+            <input type="text" name="name" id="c_name">
+            <label for="c_name">Clase</label>
+          </div>
+          <div class="input-field">
+            <button type="submit">Buscar</button>
+          </div>
+        </form>
+        <div class="response hide"></div>
+      </div>
+  
+      <input name="tab" class="tabRadio" type="radio" id="averageTab">
+      <div class="tabContent">
+        <div class="response"></div>
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const TabsManager = () => {
+        const tabs = document.querySelectorAll('.tabRadio')
+  
+        const updateSelectedTab = e => {
+          for (const tab of tabs) {
+            if (tab.checked) {
+              document.querySelector(`#tabs > label[for="${tab.id}"]`).classList.add('active')
+            } else {
+              document.querySelector(`#tabs > label[for="${tab.id}"]`).classList.remove('active')
+            }
+          }
+        }
+
+        updateSelectedTab()
+
+        for (const tab of tabs) {
+          tab.addEventListener('change', updateSelectedTab)
+        }
+
+        document.getElementById('averageTab').addEventListener('click', async e => {
+          const content = e.target.nextElementSibling.children[0]
+          content.innerText = await fetch('/grades').then(r => r.text())
+        })
+      }
+
+      const FormManager = () => {
+        const forms = { 
+          add: async e => {
+            const elems = e.target.elements
+            
+            const res = await fetch('/addgrade', { 
+              method: 'POST', 
+              body: JSON.stringify({
+                Student: elems.name.value.trim(),
+                Class: elems.class.value.trim(),
+                Value: Number(elems.grade.value)
+              })
+            }).then(r => r.text())
+
+            if (res === 'ok') {
+              alert('Se agrego exitosamente la calificacion')
+            } else {
+              alert('Hubo un error al agregar la calificacion')
+            }
+          },
+          student: async e => {
+            const res = await fetch('/grades/student', {
+              method: 'POST',
+              body: e.target.elements.name.value.trim()
+            }).then(r => r.text())
+
+            e.target.nextElementSibling.classList.remove('hide')
+            e.target.nextElementSibling.innerText = res
+          },
+          class: async e => {
+            const res = await fetch('/grades/class', {
+              method: 'POST',
+              body: e.target.elements.name.value.trim()
+            }).then(r => r.text())
+
+            e.target.nextElementSibling.classList.remove('hide')
+            e.target.nextElementSibling.innerText = res
+          }
+        }
+
+        for (const form in forms) {
+          document[form].addEventListener('submit', e => {
+            e.preventDefault()
+            forms[form](e)
+          })
+        }
+      }
+
+      TabsManager()
+      FormManager()
+    })
+
+    
+  </script>
+</body>
+</html>
